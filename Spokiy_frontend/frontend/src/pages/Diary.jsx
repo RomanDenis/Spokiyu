@@ -1,116 +1,119 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Diary() {
-  const [text, setText] = useState('')
-  const [moodLevel, setMoodLevel] = useState(5)
-  const [history, setHistory] = useState([]) // Тут храним список записей
+  const [text, setText] = useState('');
+  const [moodLevel, setMoodLevel] = useState(5);
+  const [history, setHistory] = useState([]);
+  const navigate = useNavigate();
 
-  // 1. Функция для загрузки истории с сервера
-  const fetchHistory = async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:8000/api/mood-records/')
-      setHistory(response.data)
-    } catch (error) {
-      console.error("Не вдалося завантажити історію", error)
+  // 1. Дістаємо токен
+  const token = localStorage.getItem('token');
+
+  // Налаштування "перепустки" для сервера
+  const authConfig = {
+    headers: {
+      'Authorization': `Token ${token}`
     }
-  }
+  };
 
-  // 2. Запускаем загрузку 1 раз при открытии страницы
-  useEffect(() => {
-    fetchHistory()
-  }, [])
+  const fetchHistory = async () => {
+    // Якщо токена немає - не намагаємося вантажити, зразу на вхід
+    if (!token) return;
 
-  // 3. Отправка новой записи
-  const handleSubmit = async (e) => {
-    e.preventDefault()
     try {
+      // ПЕРЕДАЄМО authConfig
+      const response = await axios.get('http://127.0.0.1:8000/api/mood-records/', authConfig);
+      setHistory(response.data);
+    } catch (error) {
+      console.error("Помилка історії", error);
+      if (error.response && error.response.status === 401) {
+        navigate('/login'); // Токен протух -> на вхід
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    } else {
+      fetchHistory();
+    }
+  }, [token]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // ТУТ ТЕЖ ВАЖЛИВО передати authConfig третім аргументом
       await axios.post('http://127.0.0.1:8000/api/mood-records/', {
         text: text,
         mood_level: moodLevel
-      })
-      // Очищаем форму
-      setText('')
-      setMoodLevel(5)
-      // Оновлюємо список історії, щоб побачити новий запис
-      fetchHistory() 
+      }, authConfig);
+      
+      // Очищення і оновлення
+      setText('');
+      setMoodLevel(5);
+      fetchHistory(); 
     } catch (error) {
-      alert("Помилка з'єднання")
+      console.error(error);
+      alert("Не вдалося зберегти запис. Перевірте консоль (F12).");
     }
-  }
+  };
 
-  // Допоміжна функція для красивої дати (День тижня, число, час)
+  // Красива дата
   const formatDate = (isoString) => {
-    const date = new Date(isoString)
+    const date = new Date(isoString);
     return date.toLocaleString('uk-UA', {
-      weekday: 'long', // понеділок
-      year: 'numeric',
-      month: 'long',   // грудня
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    })
-  }
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
+  };
 
   return (
-    <div className="app-container">
-      <h1>🌿 Мій Щоденник</h1>
+    <div className="diary-container">
+      <h2 style={{textAlign: 'center', color: '#2E7D32'}}>Щоденник {token ? "(Ви увійшли)" : ""}</h2>
       
-      {/* Картка додавання нового запису */}
       <div className="card form-card">
         <h3>Новий запис</h3>
         <form onSubmit={handleSubmit}>
           <textarea 
             rows="3" 
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Як пройшов ваш день? (Наприклад: I feel productive today)"
-            required
+            value={text} 
+            onChange={(e) => setText(e.target.value)} 
+            placeholder="Опишіть свій стан..." 
+            required 
           />
-          
           <div className="range-container">
             <label>Настрій: {moodLevel}/10</label>
-            <input 
-              type="range" min="1" max="10" 
-              value={moodLevel}
-              onChange={(e) => setMoodLevel(e.target.value)}
-            />
+            <input type="range" min="1" max="10" value={moodLevel} onChange={(e) => setMoodLevel(e.target.value)} />
           </div>
-
-          <button type="submit">Зберегти в щоденник</button>
+          <button type="submit">Зберегти</button>
         </form>
       </div>
 
-      {/* Блок історії (Стрічка щоденника) */}
       <div className="history-section">
-        <h2>📜 Історія записів</h2>
-        
+        <h3>Ваша історія</h3>
         {history.length === 0 ? (
-          <p style={{textAlign: 'center', color: '#888'}}>Поки що записів немає...</p>
+          <p style={{textAlign:'center', color:'#888'}}>
+            Тут поки пусто. Зробіть свій перший запис під цим акаунтом!
+          </p>
         ) : (
           <div className="history-list">
             {history.map((item) => (
               <div key={item.id} className="history-card">
                 <div className="history-header">
                   <span className="history-date">{formatDate(item.date)}</span>
-                  <span className={`mood-badge mood-${item.mood_level >= 5 ? 'good' : 'bad'}`}>
-                    Настрій: {item.mood_level}
-                  </span>
+                  <span className={`mood-badge ${item.mood_level >= 5 ? 'mood-good' : 'mood-bad'}`}>{item.mood_level}/10</span>
                 </div>
-                
                 <p className="history-text">{item.text}</p>
-                
-                <div className="history-footer">
-                  <small>Тональність: {item.sentiment_score.toFixed(2)}</small>
-                </div>
+                {item.recommendation && <small style={{display:'block', marginTop:'10px', color:'#2E7D32'}}>💡 {item.recommendation}</small>}
               </div>
             ))}
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default Diary
+export default Diary;

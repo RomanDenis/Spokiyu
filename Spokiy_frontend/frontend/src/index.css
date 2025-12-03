@@ -1,20 +1,32 @@
 :root {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  background-color: #f0f7f4; /* Светло-мятный фон */
+  --primary-color: #2E7D32;       /* Темно-зелений (основний) */
+  --accent-color: #4CAF50;        /* Яскраво-зелений (кнопки) */
+  --bg-color: #F4F9F4;            /* Дуже світлий м'ятний фон */
+  --text-main: #333333;           /* Темний текст */
+  --text-secondary: #666666;      /* Сірий текст */
+  --card-bg: #FFFFFF;             /* Білий фон карток */
+  --danger-color: #e53935;        /* Червоний (для помилок/виходу) */
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+  --shadow-md: 0 8px 24px rgba(46, 125, 50, 0.15); /* Зеленувата тінь */
 }
 
 body {
   margin: 0;
   padding: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  display: block; /* ВАЖНО: Было flex, что сжимало всё в центр. Ставим block */
+  font-family: 'Inter', 'Segoe UI', sans-serif; /* Сучасний шрифт */
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {
-  width: 100%;
-  margin: 0 auto;
-  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Скидання стилів для всіх кнопок */
+button {
+  font-family: inherit;
 }

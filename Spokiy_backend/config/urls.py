@@ -17,14 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from core.views import MoodRecordViewSet
+from rest_framework.authtoken.views import obtain_auth_token # Готова вюха для логіну
+from core.views import MoodRecordViewSet, RegisterView
 
-# Створюємо роутер для API
 router = DefaultRouter()
-router.register(r'mood-records', MoodRecordViewSet)
+router.register(r'mood-records', MoodRecordViewSet, basename='moodrecord')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Всі запити на API будуть починатися з /api/
     path('api/', include(router.urls)),
+    
+    # Auth endpoints
+    path('api/register/', RegisterView.as_view(), name='register'), # Реєстрація
+    path('api/login/', obtain_auth_token, name='login'),            # Вхід (отримання токена)
 ]

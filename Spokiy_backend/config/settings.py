@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # --- Наші додатки ---
-    'rest_framework',  # Інструмент для API
+    'rest_framework',
+    'rest_framework.authtoken', 
+    'corsheaders',
     'core',
-    'corsheaders',            # Наш основний код
 ]
 
 MIDDLEWARE = [
@@ -103,7 +104,15 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # <--- Вмикаємо Токени
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',         # <--- За замовчуванням усе закрито
+    ],
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

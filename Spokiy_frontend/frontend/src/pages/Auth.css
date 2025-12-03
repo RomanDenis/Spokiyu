@@ -1,0 +1,69 @@
+/* frontend/src/pages/Auth.css */
+
+.split-screen {
+  display: flex;
+  min-height: calc(100vh - 70px); /* На весь экран минус меню */
+  background-color: white;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Левая часть (Зеленая) */
+.split-left {
+  flex: 1;
+  background: linear-gradient(135deg, #2E7D32 0%, #66BB6A 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  color: white;
+  text-align: center;
+}
+
+.split-left h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.split-left p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  max-width: 80%;
+  line-height: 1.6;
+}
+
+/* Правая часть (Форма) */
+.split-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: white;
+}
+
+.auth-form-wrapper {
+  width: 100%;
+  max-width: 350px;
+}
+
+.auth-form-wrapper h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Адаптив для телефонов */
+@media (max-width: 768px) {
+  .split-screen {
+    flex-direction: column;
+  }
+  .split-left {
+    padding: 30px;
+    min-height: 150px;
+  }
+}
