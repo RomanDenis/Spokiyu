@@ -1,0 +1,43 @@
+.navbar {
+  background-color: #ffffff;
+  width: 100%; /* На всю ширину */
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Логотип слева, ссылки справа */
+  padding: 0 40px; /* Отступы по бокам */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-sizing: border-box; /* Чтобы padding не ломал ширину */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2E7D32;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: #555;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.navbar-links a:hover {
+  color: #4CAF50;
+}
