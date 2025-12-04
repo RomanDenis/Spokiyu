@@ -1,23 +1,86 @@
 :root {
-  --primary-color: #2E7D32;       /* Темно-зелений (основний) */
-  --accent-color: #4CAF50;        /* Яскраво-зелений (кнопки) */
-  --bg-color: #F4F9F4;            /* Дуже світлий м'ятний фон */
-  --text-main: #333333;           /* Темний текст */
-  --text-secondary: #666666;      /* Сірий текст */
-  --card-bg: #FFFFFF;             /* Білий фон карток */
-  --danger-color: #e53935;        /* Червоний (для помилок/виходу) */
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
-  --shadow-md: 0 8px 24px rgba(46, 125, 50, 0.15); /* Зеленувата тінь */
+  /* --- СВЕТЛАЯ ТЕМА (Light Mode) --- */
+  --primary-color: #2E7D32;       /* Насыщенный зеленый */
+  --accent-color: #4CAF50;        /* Яркий акцент */
+  --bg-color: #F4F9F4;            /* Свежий мятный фон */
+  --text-main: #2C3E50;           /* Темно-синий/серый (мягче черного) */
+  --text-secondary: #546E7A;      /* Спокойный серый */
+  
+  --card-bg: #FFFFFF;             /* Чистый белый */
+  --card-border: 1px solid transparent; 
+  
+  --input-bg: #FFFFFF;
+  --input-border: #CFD8DC;
+  
+  --nav-bg: rgba(255, 255, 255, 0.95);
+  --nav-border: #E0F2F1;
+  
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md: 0 8px 24px rgba(46, 125, 50, 0.12);
+  
+  --success-bg: #E8F5E9;
+  --success-text: #2E7D32;
 }
 
+/* --- ТЕМНАЯ ТЕМА (Dark Mode - Fixed) --- */
+body.dark-mode {
+  /* Фон */
+  --bg-color: #121212;
+  
+  /* Карточки */
+  --card-bg: #1E1E1E;
+  --card-border: 1px solid #333333;
+  
+  /* Текст */
+  --text-main: #E0E0E0;
+  --text-secondary: #B0B0B0;
+  
+  /* Акценты */
+  --primary-color: #81C784;       
+  --accent-color: #66BB6A;
+  
+  /* Поля ввода */
+  --input-bg: #2C2C2C;
+  --input-border: #424242;
+  
+  /* Навигация */
+  --nav-bg: rgba(30, 30, 30, 0.95);
+  --nav-border: #333333;
+  
+  /* Тени */
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.5);
+  
+  /* Статусы */
+  --success-bg: #1B3320;
+  --success-text: #A5D6A7;
+}
+
+/* --- ВАЖНО: ЗАЩИТА ЛЕНДИНГА ОТ ТЕМНОЙ ТЕМЫ --- */
+/* Если мы в темной теме, но находимся внутри .landing-view, 
+   принудительно возвращаем светлые переменные */
+body.dark-mode .landing-view {
+  --bg-color: #F4F9F4;
+  --card-bg: #FFFFFF;
+  --card-border: 1px solid transparent;
+  
+  --text-main: #2C3E50;
+  --text-secondary: #546E7A;
+  
+  --primary-color: #2E7D32;
+  --accent-color: #4CAF50;
+}
+
+/* --- БАЗОВЫЕ НАСТРОЙКИ --- */
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', 'Segoe UI', sans-serif; /* Сучасний шрифт */
+  font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-main);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -26,7 +89,64 @@ body {
   flex-direction: column;
 }
 
-/* Скидання стилів для всіх кнопок */
 button {
   font-family: inherit;
+}
+
+/* --- ГЛОБАЛЬНАЯ АДАПТАЦИЯ (Работает для всех элементов) --- */
+
+/* 1. Карточки и контейнеры */
+.card, .menu-card, .history-card, .form-card, .timeline-day, .timeline-entry, 
+.feature-card, .stat-item, .audience-card, .faq-item {
+  background-color: var(--card-bg) !important;
+  border: var(--card-border) !important;
+  color: var(--text-main) !important;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* 2. Навигация */
+.navbar {
+  background-color: var(--nav-bg) !important;
+  border-bottom: 1px solid var(--nav-border) !important;
+}
+.navbar-brand { color: var(--primary-color) !important; }
+.navbar-links a { color: var(--text-secondary) !important; }
+.navbar-links a:hover { color: var(--primary-color) !important; }
+
+/* 3. Инпуты */
+input, textarea, select {
+  background-color: var(--input-bg) !important;
+  color: var(--text-main) !important;
+  border-color: var(--input-border) !important;
+}
+input:focus, textarea:focus { border-color: var(--primary-color) !important; }
+
+/* 4. Заголовки */
+h1, h2, h3, h4, h5, h6 { color: var(--text-main) !important; }
+
+/* --- ИСПРАВЛЕНИЯ ДЛЯ ДНЕВНИКА (DIARY) --- */
+
+/* Исправляем цвет текста внутри записей, который был жестко задан как #333 */
+body.dark-mode .timeline-entry p,
+body.dark-mode .history-text,
+body.dark-mode .entry-text {
+  color: var(--text-main) !important;
+}
+
+body.dark-mode .timeline-entry span {
+  color: var(--text-secondary); /* Время записи и прочие мелкие тексты */
+}
+
+/* Заголовки дней в таймлайне */
+body.dark-mode .day-header-sticky {
+  background-color: var(--bg-color) !important;
+  border-bottom: 1px solid #333;
+}
+body.dark-mode .day-date-title {
+  background-color: var(--card-bg) !important;
+  color: var(--text-main) !important;
+  border-color: #333;
+}
+body.dark-mode .timeline-day::before {
+  background-color: #333; /* Линия таймлайна */
 }

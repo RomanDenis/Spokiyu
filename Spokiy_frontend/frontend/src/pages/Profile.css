@@ -1,0 +1,170 @@
+.profile-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.profile-title {
+  text-align: center;
+  color: #2E7D32;
+  margin-bottom: 30px;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* Левая колонка уже, правая шире */
+  gap: 30px;
+  align-items: start;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- КАРТОЧКА ПРОФИЛЯ --- */
+.profile-card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  color: white;
+  font-size: 3rem;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+}
+
+.profile-card h2 {
+  margin: 0;
+  color: #333;
+}
+
+.profile-status {
+  color: #666;
+  margin-top: 10px;
+}
+
+.profile-status span {
+  color: #2E7D32;
+  font-weight: bold;
+  background: #E8F5E9;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+}
+
+/* --- НАСТРОЙКИ --- */
+.settings-card {
+  padding: 30px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.setting-info h4 {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.setting-info p {
+  margin: 0;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.setting-divider {
+  margin: 20px 0;
+  border-top: 1px solid #eee;
+}
+
+/* Кнопка выхода */
+.logout-btn {
+  background-color: #ffebee;
+  color: #c62828;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 1rem;
+}
+
+.logout-btn:hover {
+  background-color: #ef5350;
+  color: white;
+}
+
+/* --- TOGGLE SWITCH (Переключатель) --- */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.switch input { 
+  opacity: 0; 
+  width: 0; 
+  height: 0; 
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}

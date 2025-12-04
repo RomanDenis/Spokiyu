@@ -193,3 +193,229 @@ button[type="submit"]:hover {
   }
   .split-left h1 { font-size: 2rem; }
 }
+/* --- UI ЩОДЕННИКА v2.0 (Таймлайн + Теги) --- */
+
+/* 1. Вибір Тегів */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tag-chip {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #e0e0e0;
+  background: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #555;
+  transition: all 0.2s;
+}
+
+.tag-chip:hover {
+  background: #f5f5f5;
+}
+
+.tag-chip.active {
+  background: #E8F5E9;
+  border-color: #2E7D32;
+  color: #2E7D32;
+  font-weight: bold;
+}
+
+/* 2. Таймлайн (Лінія часу) */
+.timeline-day {
+  position: relative;
+  padding-left: 20px; /* Місце для лінії зліва */
+  margin-bottom: 40px;
+}
+
+/* Вертикальна лінія */
+.timeline-day::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #e0e0e0;
+  border-radius: 2px;
+}
+
+.day-header-sticky {
+  position: sticky;
+  top: 80px; /* Щоб заголовок дня "прилипав" при прокрутці */
+  background: #f4f9f4; /* Колір фону сайту */
+  z-index: 5;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.day-date-title {
+  font-weight: 800;
+  color: #333;
+  font-size: 1.1rem;
+  background: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Картка запису в таймлайні */
+.timeline-entry {
+  position: relative;
+  margin-left: 20px; /* Відступ від лінії */
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border: 1px solid transparent;
+  transition: transform 0.2s;
+}
+
+.timeline-entry:hover {
+  transform: translateX(5px);
+  border-color: #4CAF50;
+}
+
+/* Крапка на лінії */
+.timeline-dot {
+  position: absolute;
+  left: -29px; /* Вирівнюємо по лінії */
+  top: 25px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border: 4px solid #4CAF50;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* Кнопка видалення (хрестик) */
+.delete-btn {
+  background: none;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 5px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  transition: color 0.2s;
+  width: auto;
+}
+
+.delete-btn:hover {
+  color: #e53935;
+  background: none;
+}
+/* --- DIARY LAYOUT V3 (Дві колонки) --- */
+
+.diary-page-wrapper {
+  max-width: 1200px; /* Широкий контейнер */
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.diary-grid {
+  display: grid;
+  grid-template-columns: 380px 1fr; /* Зліва 380px, Справа все інше */
+  gap: 40px;
+  align-items: start; /* Вирівнювання по верху */
+}
+
+/* Ліва колонка (Форма) */
+.diary-sidebar {
+  position: sticky;
+  top: 100px; /* Відступ від меню, щоб не прилипало */
+  height: fit-content;
+}
+
+/* Права колонка (Історія) */
+.diary-feed {
+  min-width: 0; /* Фікс для Grid */
+}
+
+/* Адаптивність: На планшетах і телефонах - одна колонка */
+@media (max-width: 900px) {
+  .diary-grid {
+    grid-template-columns: 1fr;
+  }
+  .diary-sidebar {
+    position: static; /* Прибираємо липкість на мобілках */
+    margin-bottom: 40px;
+  }
+}
+
+/* --- КРАСИВИЙ ПОВЗУНОК (SLIDER) --- */
+
+/* Скидаємо стандартні стилі браузера */
+input[type=range] {
+  -webkit-appearance: none; /* Chrome/Safari */
+  width: 100%;
+  background: transparent;
+  margin: 15px 0;
+}
+
+input[type=range]:focus {
+  outline: none;
+}
+
+/* Доріжка (Track) */
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 12px;
+  cursor: pointer;
+  background: #E8F5E9; /* Світло-зелений фон */
+  border-radius: 25px;
+  border: 1px solid #C8E6C9;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Бігунок (Thumb) */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  background: #4CAF50; /* Яскраво-зелений */
+  border: 4px solid #ffffff; /* Біла обводка */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: grab;
+  margin-top: -9px; /* Центруємо відносно доріжки */
+  transition: transform 0.1s, background 0.2s;
+}
+
+/* Ефект при натисканні */
+input[type=range]::-webkit-slider-thumb:active {
+  transform: scale(1.1);
+  background: #2E7D32;
+  cursor: grabbing;
+}
+
+/* Для Firefox (аналогічно) */
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 12px;
+  cursor: pointer;
+  background: #E8F5E9;
+  border-radius: 25px;
+  border: 1px solid #C8E6C9;
+}
+
+input[type=range]::-moz-range-thumb {
+  height: 28px;
+  width: 28px;
+  border: 4px solid #ffffff;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: grab;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}

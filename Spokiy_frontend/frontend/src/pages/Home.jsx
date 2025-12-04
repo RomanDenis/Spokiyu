@@ -1,13 +1,18 @@
 import { Link } from 'react-router-dom';
 import './Home.css';
 
-function Home() {
+// Мы используем параметр forceLanding для страницы "Про проект"
+// eslint-disable-next-line react/prop-types
+function Home({ forceLanding = false }) {
   const token = localStorage.getItem('token');
 
+  // Логика: Показуємо Дашборд ТІЛЬКИ якщо є токен І ми НЕ в режимі "Про проєкт"
+  const showDashboard = token && !forceLanding;
+
   // =================================================================
-  // ВАРІАНТ 1: КОРИСТУВАЧ УВІЙШОВ (ПАНЕЛЬ КЕРУВАННЯ / DASHBOARD)
+  // ВАРІАНТ 1: КОРИСТУВАЧ УВІЙШОВ (ПАНЕЛЬ КЕРУВАННЯ)
   // =================================================================
-  if (token) {
+  if (showDashboard) {
     return (
       <div className="dashboard-container">
         <div className="dashboard-welcome">
@@ -16,7 +21,6 @@ function Home() {
         </div>
 
         <div className="dashboard-menu">
-          {/* Картка 1: Щоденник */}
           <Link to="/diary" className="menu-card">
             <div className="card-icon">📝</div>
             <div className="card-info">
@@ -25,7 +29,6 @@ function Home() {
             </div>
           </Link>
 
-          {/* Картка 2: Статистика */}
           <Link to="/stats" className="menu-card">
             <div className="card-icon">📊</div>
             <div className="card-info">
@@ -34,7 +37,6 @@ function Home() {
             </div>
           </Link>
 
-          {/* Картка 3: Профіль */}
           <Link to="/profile" className="menu-card">
             <div className="card-icon">👤</div>
             <div className="card-info">
@@ -48,12 +50,12 @@ function Home() {
   }
 
   // =================================================================
-  // ВАРІАНТ 2: ГІСТЬ (ЛЕНДІНГ НА ВСЮ ШИРИНУ)
+  // ВАРІАНТ 2: ЛЕНДІНГ (ДЛЯ ГОСТЕЙ АБО РЕЖИМ "ПРО ПРОЄКТ")
   // =================================================================
   return (
     <div className="landing-view">
       
-      {/* 1. HERO SECTION (Зелений градієнт на всю ширину) */}
+      {/* 1. HERO SECTION */}
       <section className="landing-hero">
         <div className="container">
           <h1>Знайдіть свій внутрішній «Спокій»</h1>
@@ -62,13 +64,20 @@ function Home() {
             Використовуйте силу AI для розуміння власних емоцій та боротьби зі стресом.
           </p>
           <div className="hero-buttons">
-            <Link to="/register" className="btn-white">Спробувати безкоштовно</Link>
-            <Link to="/login" className="btn-outline">Увійти</Link>
+            {/* Якщо користувач вже увійшов, кнопки входу йому не потрібні, покажемо кнопку "В кабінет" */}
+            {token ? (
+               <Link to="/" className="btn-white">Перейти в кабінет</Link>
+            ) : (
+              <>
+                <Link to="/register" className="btn-white">Спробувати безкоштовно</Link>
+                <Link to="/login" className="btn-outline">Увійти</Link>
+              </>
+            )}
           </div>
         </div>
       </section>
 
-      {/* 2. STATS SECTION (Білий фон) */}
+      {/* 2. STATS SECTION */}
       <section className="section-stats">
         <div className="container">
           <div className="stats-grid">
@@ -88,7 +97,7 @@ function Home() {
         </div>
       </section>
 
-      {/* 3. PROBLEM & SOLUTION (Світло-зелений фон) */}
+      {/* 3. PROBLEM & SOLUTION */}
       <section className="section-features" style={{background: '#e8f5e9'}}>
         <div className="container">
           <h2 className="section-title">Чому це важливо?</h2>
@@ -105,7 +114,7 @@ function Home() {
         </div>
       </section>
 
-      {/* 4. AUDIENCE (Білий фон) */}
+      {/* 4. AUDIENCE */}
       <section className="section-audience">
         <div className="container">
           <h2 className="section-title">Для кого цей застосунок?</h2>
@@ -129,7 +138,7 @@ function Home() {
         </div>
       </section>
 
-      {/* 5. HOW IT WORKS (Світло-зелений фон) */}
+      {/* 5. HOW IT WORKS */}
       <section className="section-features">
         <div className="container">
           <h2 className="section-title">Як це працює?</h2>
@@ -153,20 +162,20 @@ function Home() {
         </div>
       </section>
 
-      {/* 6. TESTIMONIALS (Білий фон) - НОВЕ */}
+      {/* 6. TESTIMONIALS */}
       <section className="section-stats" style={{background: 'white'}}>
         <div className="container">
           <h2 className="section-title">Відгуки користувачів</h2>
           <div style={{display: 'flex', gap: '30px', justifyContent: 'center', flexWrap: 'wrap'}}>
             <div style={{background: '#f9f9f9', padding: '30px', borderRadius: '15px', maxWidth: '300px'}}>
               <p style={{fontStyle: 'italic', color: '#666'}}>
-                "Цей додаток допоміг мені пережити складну сесію. Просто записуючи думки, я відчувала полегшення."
+                &quot;Цей додаток допоміг мені пережити складну сесію. Просто записуючи думки, я відчувала полегшення.&quot;
               </p>
               <h4 style={{marginTop: '20px', color: '#2E7D32'}}>- Олена, студентка</h4>
             </div>
             <div style={{background: '#f9f9f9', padding: '30px', borderRadius: '15px', maxWidth: '300px'}}>
               <p style={{fontStyle: 'italic', color: '#666'}}>
-                "Зручно слідкувати за статистикою. Я помітив, що мій настрій падає в середу, і змінив графік."
+                &quot;Зручно слідкувати за статистикою. Я помітив, що мій настрій падає в середу, і змінив графік.&quot;
               </p>
               <h4 style={{marginTop: '20px', color: '#2E7D32'}}>- Максим, QA Engineer</h4>
             </div>
@@ -174,7 +183,7 @@ function Home() {
         </div>
       </section>
 
-      {/* 7. FOOTER (Темний фон на всю ширину) */}
+      {/* 7. FOOTER */}
       <footer className="landing-footer" style={{background: '#263238', color: '#b0bec5', padding: '60px 0'}}>
         <div className="container" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '40px', textAlign: 'left'}}>
           
@@ -189,9 +198,15 @@ function Home() {
           <div>
             <h4 style={{color: 'white', marginBottom: '20px'}}>Навігація</h4>
             <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-              <Link to="/login" style={{color: '#b0bec5', textDecoration: 'none'}}>Вхід</Link>
-              <Link to="/register" style={{color: '#b0bec5', textDecoration: 'none'}}>Реєстрація</Link>
-              <Link to="/" style={{color: '#b0bec5', textDecoration: 'none'}}>Про проєкт</Link>
+              <Link to="/about" style={{color: '#b0bec5', textDecoration: 'none'}}>Про проєкт</Link>
+              {token ? (
+                 <Link to="/" style={{color: '#b0bec5', textDecoration: 'none'}}>Мій кабінет</Link>
+              ) : (
+                <>
+                  <Link to="/login" style={{color: '#b0bec5', textDecoration: 'none'}}>Вхід</Link>
+                  <Link to="/register" style={{color: '#b0bec5', textDecoration: 'none'}}>Реєстрація</Link>
+                </>
+              )}
             </div>
           </div>
 
