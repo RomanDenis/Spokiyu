@@ -178,7 +178,7 @@ function Diary() {
                 required 
               />
 
-              {/* --- ВЫБОР ДАТЫ (СТИЛЬНО И БЕЗ ВЫЛЕЗАНИЯ) --- */}
+              {/* --- ВЫБОР ДАТЫ --- */}
               <div style={{marginBottom: '20px'}}>
                 <button 
                   type="button" 
@@ -216,8 +216,8 @@ function Diary() {
                     borderRadius: '16px',
                     border: '1px solid #E0E0E0',
                     boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
-                    boxSizing: 'border-box', // Важно: границы внутри ширины
-                    width: '100%' // Гарантирует, что блок не шире родителя
+                    boxSizing: 'border-box',
+                    width: '100%'
                   }}>
                     <label style={{
                       fontSize: '0.85rem', 
@@ -247,8 +247,8 @@ function Diary() {
                         color: '#333',
                         outline: 'none',
                         transition: 'border-color 0.2s',
-                        boxSizing: 'border-box', // Важно: padding не раздувает input
-                        maxWidth: '100%' // Страховка от переполнения
+                        boxSizing: 'border-box',
+                        maxWidth: '100%'
                       }}
                       onFocus={(e) => e.target.style.borderColor = '#4CAF50'}
                       onBlur={(e) => e.target.style.borderColor = '#E8F5E9'}
@@ -296,9 +296,32 @@ function Diary() {
                     <div style={{display:'flex', gap:'15px', alignItems:'flex-start'}}>
                       <div style={{fontSize:'2rem', lineHeight: 1}}>{getMoodEmoji(item.mood_level)}</div>
                       <div style={{width: '100%'}}>
-                        <div style={{fontSize:'0.85rem', fontWeight:'bold', color:'#888', marginBottom:'5px'}}>
-                          {new Date(item.date).toLocaleTimeString('uk-UA', {hour:'2-digit', minute:'2-digit'})}
+                        
+                        {/* --- ВРЕМЯ И AI SCORE (Обновленная строка) --- */}
+                        <div style={{
+                          fontSize:'0.85rem', 
+                          fontWeight:'bold', 
+                          color:'#888', 
+                          marginBottom:'5px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px'
+                        }}>
+                          <span>{new Date(item.date).toLocaleTimeString('uk-UA', {hour:'2-digit', minute:'2-digit'})}</span>
+                          
+                          {/* ПОКАЗЫВАЕМ AI ОЦЕНКУ */}
+                          <span style={{
+                            fontSize: '0.75rem',
+                            padding: '2px 6px',
+                            borderRadius: '4px',
+                            backgroundColor: item.sentiment_score > 0 ? '#E8F5E9' : (item.sentiment_score < 0 ? '#FFEBEE' : '#F5F5F5'),
+                            color: item.sentiment_score > 0 ? '#2E7D32' : (item.sentiment_score < 0 ? '#C62828' : '#666'),
+                            border: `1px solid ${item.sentiment_score > 0 ? '#C8E6C9' : (item.sentiment_score < 0 ? '#FFCDD2' : '#E0E0E0')}`
+                          }}>
+                            AI: {item.sentiment_score > 0 ? '+' : ''}{item.sentiment_score?.toFixed(2)}
+                          </span>
                         </div>
+
                         <p style={{margin: '0 0 8px 0', color: '#333', whiteSpace: 'pre-wrap', lineHeight: '1.5'}}>
                           {item.text}
                         </p>

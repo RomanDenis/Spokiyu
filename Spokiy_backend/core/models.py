@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from textblob import TextBlob
-from django.utils import timezone  # <--- Важный импорт
+from django.utils import timezone
+from deep_translator import GoogleTranslator # <--- Нова бібліотека
 
 # --- Таблиця Рекомендацій ---
 class Recommendation(models.Model):
@@ -11,20 +12,47 @@ class Recommendation(models.Model):
     def __str__(self):
         return self.text[:50]
 
-# --- Таблиця Записів Настрою ---
+# --- Таблиця Сеансів (Терапія) ---
+class TherapySession(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Очікує підтвердження'),
+        ('confirmed', 'Підтверджено'),
+        ('completed', 'Завершено'),
+        ('canceled', 'Скасовано'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_time = models.DateTimeField(verbose_name="Дата та час сеансу")
+    notes = models.TextField(verbose_name="Коментар користувача", blank=True, null=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Сеанс {self.user.username} на {self.date_time}"
+
+# --- Таблиця Записів Настрою (З NLP) ---
 class MoodRecord(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    
-    # БУЛО: auto_now_add=True (Забороняло змінювати дату)
-    # СТАЛО: default=timezone.now (Дозволяє змінювати дату)
-    date = models.DateTimeField(default=timezone.now) 
-    
+    date = models.DateTimeField(default=timezone.now)
     text = models.TextField(verbose_name="Опис емоцій")
     sentiment_score = models.FloatField(default=0.0, verbose_name="Тональність")
     mood_level = models.IntegerField(default=5, verbose_name="Рівень настрою")
 
     def save(self, *args, **kwargs):
-        blob = TextBlob(self.text)
+        # 1. Спробуємо перекласти текст на англійську для точного аналізу
+        try:
+            # Використовуємо Google Translate (auto -> english)
+            translated_text = GoogleTranslator(source='auto', target='en').translate(self.text)
+            print(f"Original: {self.text} -> Translated: {translated_text}") # Для налагодження в консолі
+            
+            # 2. Аналізуємо перекладений текст
+            blob = TextBlob(translated_text)
+        except Exception as e:
+            print(f"Translation Error: {e}")
+            # Якщо переклад не вдався (немає інтернету), аналізуємо як є
+            blob = TextBlob(self.text)
+
+        # 3. Зберігаємо результат (-1.0 ... +1.0)
         self.sentiment_score = blob.sentiment.polarity
         super().save(*args, **kwargs)
 
