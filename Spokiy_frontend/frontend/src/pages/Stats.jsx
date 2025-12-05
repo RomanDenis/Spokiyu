@@ -4,8 +4,9 @@ import {
   Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
+// Регистрация компонентов графика
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 function Stats() {
@@ -26,7 +27,7 @@ function Stats() {
         const rawData = response.data;
         setTotalRecs(rawData.length);
 
-        // --- АГРЕГАЦІЯ ДАНИХ ПО ДНЯХ ---
+        // --- АГРЕГАЦИЯ ДАННЫХ ПО ДНЯМ ---
         const groups = {};
         rawData.forEach(item => {
           const date = new Date(item.date).toLocaleDateString('uk-UA');
@@ -37,23 +38,25 @@ function Stats() {
         const labels = [];
         const dataPoints = [];
         
-        // Сортуємо дати (від старих до нових)
+        // Сортируем даты (от старых к новым)
         const sortedDates = Object.keys(groups).reverse(); 
 
         sortedDates.forEach(date => {
           const levels = groups[date];
+          // Считаем среднее за день
           const avg = levels.reduce((a, b) => a + b, 0) / levels.length;
           
           labels.push(date);
           dataPoints.push(avg.toFixed(1));
         });
 
-        // Рахуємо глобальне середнє
+        // Считаем глобальное среднее (среднее из средних за дни)
         if (dataPoints.length > 0) {
             const sum = dataPoints.reduce((a, b) => parseFloat(a) + parseFloat(b), 0);
             setGlobalAvg((sum / dataPoints.length).toFixed(1));
         }
 
+        // Настройка данных для графика
         setChartData({
           labels: labels,
           datasets: [{
@@ -61,7 +64,7 @@ function Stats() {
             data: dataPoints,
             borderColor: '#4CAF50',
             backgroundColor: 'rgba(76, 175, 80, 0.2)',
-            tension: 0.3,
+            tension: 0.3, // Плавность линий
             fill: true,
             pointRadius: 6,
             pointBackgroundColor: '#2E7D32'
@@ -82,7 +85,7 @@ function Stats() {
     <div className="container" style={{maxWidth: '900px', marginTop: '40px', paddingBottom: '50px'}}>
       <h1 style={{textAlign: 'center', color: '#2E7D32', marginBottom: '30px'}}>Аналітика 📊</h1>
 
-      {/* Верхні картки */}
+      {/* Верхние карточки с цифрами */}
       <div style={{display: 'flex', gap: '20px', justifyContent: 'center', marginBottom: '30px', flexWrap: 'wrap'}}>
         <div className="card" style={{padding: '25px', textAlign: 'center', minWidth: '180px', flex: 1}}>
           <h3 style={{fontSize: '2.5rem', margin: '0 0 10px 0', color: '#333'}}>{totalRecs}</h3>
@@ -96,75 +99,51 @@ function Stats() {
         </div>
       </div>
 
-      {/* Графік */}
+      {/* График */}
       <div className="card" style={{padding: '20px', background: 'white', marginBottom: '30px'}}>
         {chartData ? <Line data={chartData} options={options} /> : <p style={{textAlign: 'center', color: '#888'}}>Завантаження даних...</p>}
       </div>
 
-      {/* --- БЛОК 1: КРИТИЧНИЙ СТАН (< 2.0) --- */}
+      {/* --- БЛОК 1: КРИТИЧЕСКОЕ СОСТОЯНИЕ (< 2.0) --- */}
       {parseFloat(globalAvg) > 0 && parseFloat(globalAvg) < 2.0 && (
         <div className="card" style={{padding: '30px', backgroundColor: '#FFEBEE', borderLeft: '6px solid #D32F2F', textAlign: 'left'}}>
             <h3 style={{color: '#D32F2F', marginTop: 0, display: 'flex', alignItems: 'center', gap: '10px'}}>
-                <span>🆘</span> Увага: Критично низький рівень
+                <span>🆘</span> Критично низький рівень
             </h3>
             <p style={{color: '#333', fontSize: '1.05rem', lineHeight: '1.6'}}>
-                Ваш середній показник становить <strong>{globalAvg}</strong>. Це свідчить про значний емоційний спад. 
-                Будь ласка, не ігноруйте цей стан.
+                Ваш середній показник становить <strong>{globalAvg}</strong>. Це свідчить про значний емоційний спад.
             </p>
             
             <div style={{marginTop: '25px', background: 'white', padding: '25px', borderRadius: '15px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)'}}>
-                <h4 style={{marginTop: 0, color: '#D32F2F', fontSize: '1.2rem'}}>Ми наполегливо рекомендуємо:</h4>
-                <p style={{color: '#555', marginBottom: '20px'}}>
-                    Найкращим рішенням у цій ситуації буде звернутися за професійною допомогою. 
-                    Фахівець допоможе розібратися з причинами та знайти вихід.
+                <h4 style={{marginTop: 0, color: '#D32F2F', fontSize: '1.2rem'}}>Екстрена допомога:</h4>
+                <p style={{color: '#555', marginBottom: '15px'}}>
+                    Ми радимо звернутися до спеціалістів. Ось безкоштовні номери підтримки:
                 </p>
-                
-                <Link to="/profile" style={{
-                    display: 'inline-block', 
-                    backgroundColor: '#D32F2F', 
-                    color: 'white', 
-                    padding: '12px 25px', 
-                    borderRadius: '10px', 
-                    textDecoration: 'none', 
-                    fontWeight: 'bold',
-                    boxShadow: '0 4px 10px rgba(211, 47, 47, 0.3)'
-                }}>
-                    Записатися до спеціаліста зараз →
-                </Link>
+                <ul style={{listStyle: 'none', padding: 0, fontSize: '1.1rem', color: '#333'}}>
+                    <li style={{marginBottom: '10px'}}>📞 <strong>7333</strong> — Гаряча лінія запобігання суїцидам</li>
+                    <li style={{marginBottom: '10px'}}>📞 <strong>0 800 500 335</strong> — Лінія "Ла Страда"</li>
+                    <li>🚑 <strong>103</strong> — Швидка медична допомога</li>
+                </ul>
             </div>
         </div>
       )}
 
-      {/* --- БЛОК 2: ЗНИЖЕННЯ НАСТРОЮ (від 2.0 до 5.0) --- */}
+      {/* --- БЛОК 2: СНИЖЕНИЕ НАСТРОЕНИЯ (2.0 - 5.0) --- */}
       {parseFloat(globalAvg) >= 2.0 && parseFloat(globalAvg) < 5.0 && (
         <div className="card" style={{padding: '30px', backgroundColor: '#FFF3E0', borderLeft: '6px solid #FF9800', textAlign: 'left'}}>
             <h3 style={{color: '#E65100', marginTop: 0, display: 'flex', alignItems: 'center', gap: '10px'}}>
-                <span>🧡</span> Важливо: Ми помітили зниження настрою
+                <span>🧡</span> Важливо: Зниження настрою
             </h3>
             <p style={{color: '#333', fontSize: '1.05rem', lineHeight: '1.6'}}>
-                Останнім часом ваш середній показник становить <strong>{globalAvg}</strong>. 
-                Це абсолютно нормально — мати складні періоди, але важливо вчасно про себе подбати.
+                Середній показник: <strong>{globalAvg}</strong>. Спробуйте приділити час собі.
             </p>
             
             <div style={{marginTop: '25px', background: 'white', padding: '25px', borderRadius: '15px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)'}}>
-                <h4 style={{marginTop: 0, color: '#2E7D32', fontSize: '1.2rem'}}>🌱 Рекомендації для відновлення:</h4>
+                <h4 style={{marginTop: 0, color: '#2E7D32', fontSize: '1.2rem'}}>🌱 Рекомендації:</h4>
                 <ul style={{paddingLeft: '20px', color: '#555', lineHeight: '1.8', fontSize: '1rem'}}>
-                    <li style={{marginBottom: '10px'}}>
-                        <strong>Техніка "Заземлення":</strong> Назвіть 5 речей, які ви бачите, 4, які можете торкнутися, 3, які чуєте, 2, які відчуваєте на запах, і 1 річ, яка вам подобається в собі.
-                    </li>
-                    <li style={{marginBottom: '10px'}}>
-                        <strong>Фізична активність:</strong> Навіть 15 хвилин прогулянки на свіжому повітрі можуть знизити рівень кортизолу (гормону стресу).
-                    </li>
-                    <li style={{marginBottom: '10px'}}>
-                        <strong>Інформаційний детокс:</strong> Спробуйте відкласти телефон за годину до сну.
-                    </li>
-                    <li>
-                        <strong>Професійна підтримка:</strong> Ви можете записатися на консультацію до фахівця прямо у своєму кабінеті.
-                        <br/>
-                        <Link to="/profile" style={{display: 'inline-block', marginTop: '10px', color: '#E65100', fontWeight: 'bold', textDecoration: 'none', borderBottom: '2px solid #E65100'}}>
-                            Перейти до запису →
-                        </Link>
-                    </li>
+                    <li style={{marginBottom: '8px'}}><strong>Техніка "Заземлення":</strong> назвіть 5 речей, які бачите навколо.</li>
+                    <li style={{marginBottom: '8px'}}><strong>Прогулянка:</strong> коротка прогулянка на свіжому повітрі (15 хв).</li>
+                    <li><strong>Детокс:</strong> спробуйте відкласти телефон за годину до сну.</li>
                 </ul>
             </div>
         </div>

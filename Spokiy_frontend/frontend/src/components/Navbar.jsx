@@ -14,20 +14,16 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      {/* 1. Посилання веде на "/about" -> це відкриває Лендінг навіть для тих, хто увійшов.
-          2. Стилі логотипу:
-             - height: 160% (трохи виступає за межі рядка, щоб бути більшим)
-             - mix-blend-mode: multiply (робить білий фон картинки прозорим на фоні меню)
-      */}
+      {/* Логотип веде на сторінку "Про проєкт" (/about) */}
       <Link to="/about" className="navbar-brand" style={{textDecoration: 'none', display: 'flex', alignItems: 'center', height: '100%', overflow: 'visible'}}>
         <img 
           src="/logo.png" 
           alt="Спокій" 
           style={{
-            height: '55px',        /* Фіксована висота, трохи більша за стандарт */
+            height: '55px',
             width: 'auto', 
             objectFit: 'contain',
-            mixBlendMode: 'multiply', /* Магія: білий фон стає прозорим */
+            mixBlendMode: 'multiply',
             display: 'block'
           }} 
         />
@@ -37,11 +33,11 @@ function Navbar() {
         
         {token ? (
             <>
-                {/* Додаємо кнопку "Кабінет", щоб користувач міг повернутися на Дашборд з Лендінгу */}
-                <li><Link to="/">Кабінет</Link></li>
+                {/* ЛОГІЧНА НАВІГАЦІЯ */}
+                <li><Link to="/">Головна</Link></li>
                 <li><Link to="/diary">Щоденник</Link></li>
                 <li><Link to="/stats">Статистика</Link></li>
-                <li><Link to="/profile">Профіль</Link></li>
+                <li><Link to="/profile">Налаштування</Link></li>
                 <li>
                   <button onClick={handleLogout} className="nav-btn-logout">
                     Вихід
