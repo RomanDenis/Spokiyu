@@ -1,0 +1,165 @@
+/* frontend/src/pages/Stats.css */
+
+.stats-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px 20px 60px 20px;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.page-title {
+  text-align: center;
+  color: #2E7D32;
+  margin-bottom: 40px;
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+
+/* --- КАРТКИ З ЦИФРАМИ --- */
+.stats-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+  border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+.summary-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.summary-value {
+  font-size: 3rem;
+  margin: 0 0 10px 0;
+  font-weight: 800;
+  color: #333;
+  line-height: 1;
+}
+
+.summary-value.good { color: #4CAF50; }
+.summary-value.bad { color: #EF5350; }
+.summary-value.neutral { color: #FF9800; }
+
+.summary-label {
+  margin: 0;
+  color: #777;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* --- ГРАФІК --- */
+.chart-card {
+  background: white;
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  margin-bottom: 40px;
+  position: relative;
+  min-height: 300px;
+}
+
+/* --- БЛОКИ ПОПЕРЕДЖЕНЬ --- */
+.alert-card {
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.alert-card.critical {
+  background-color: #FFEBEE;
+  border-left: 8px solid #D32F2F;
+}
+
+.alert-card.warning {
+  background-color: #FFF3E0;
+  border-left: 8px solid #FF9800;
+}
+
+.alert-header {
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.4rem;
+}
+
+.alert-card.critical .alert-header { color: #D32F2F; }
+.alert-card.warning .alert-header { color: #E65100; }
+
+.alert-text {
+  color: #444;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+/* Внутрішній блок рекомендацій */
+.recommendations-box {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.rec-title {
+  margin-top: 0;
+  color: #2E7D32;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rec-list {
+  padding-left: 20px;
+  color: #555;
+  line-height: 1.8;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.rec-list li {
+  margin-bottom: 8px;
+}
+
+/* Контакти допомоги */
+.help-list {
+  list-style: none;
+  padding: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.help-list li {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.help-icon {
+  font-size: 1.2rem;
+}
+
+/* Завантаження */
+.loading-state {
+  text-align: center;
+  color: #888;
+  padding: 50px;
+  font-size: 1.2rem;
+}

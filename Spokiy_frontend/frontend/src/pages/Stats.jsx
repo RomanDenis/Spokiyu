@@ -5,8 +5,9 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useNavigate } from 'react-router-dom';
+import './Stats.css'; // Імпорт нових стилів
 
-// Регистрация компонентов графика
+// Реєстрація компонентів графіка
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 function Stats() {
@@ -27,7 +28,7 @@ function Stats() {
         const rawData = response.data;
         setTotalRecs(rawData.length);
 
-        // --- АГРЕГАЦИЯ ДАННЫХ ПО ДНЯМ ---
+        // --- АГРЕГАЦІЯ ДАНИХ ПО ДНЯХ ---
         const groups = {};
         rawData.forEach(item => {
           const date = new Date(item.date).toLocaleDateString('uk-UA');
@@ -38,36 +39,49 @@ function Stats() {
         const labels = [];
         const dataPoints = [];
         
-        // Сортируем даты (от старых к новым)
-        const sortedDates = Object.keys(groups).reverse(); 
+        // Сортуємо дати (від старих до нових)
+        const sortedDates = Object.keys(groups).sort((a, b) => {
+            const [d1, m1, y1] = a.split('.');
+            const [d2, m2, y2] = b.split('.');
+            return new Date(`${y1}-${m1}-${d1}`) - new Date(`${y2}-${m2}-${d2}`);
+        });
 
         sortedDates.forEach(date => {
           const levels = groups[date];
-          // Считаем среднее за день
+          // Середнє за день
           const avg = levels.reduce((a, b) => a + b, 0) / levels.length;
           
-          labels.push(date);
+          labels.push(date.slice(0, 5)); // Показуємо тільки DD.MM для компактності
           dataPoints.push(avg.toFixed(1));
         });
 
-        // Считаем глобальное среднее (среднее из средних за дни)
+        // Глобальне середнє
         if (dataPoints.length > 0) {
             const sum = dataPoints.reduce((a, b) => parseFloat(a) + parseFloat(b), 0);
             setGlobalAvg((sum / dataPoints.length).toFixed(1));
         }
 
-        // Настройка данных для графика
+        // Налаштування даних для графіка
         setChartData({
           labels: labels,
           datasets: [{
-            label: 'Середній настрій за день',
+            label: 'Настрій',
             data: dataPoints,
             borderColor: '#4CAF50',
-            backgroundColor: 'rgba(76, 175, 80, 0.2)',
-            tension: 0.3, // Плавность линий
+            backgroundColor: (context) => {
+              const ctx = context.chart.ctx;
+              const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+              gradient.addColorStop(0, 'rgba(76, 175, 80, 0.5)');
+              gradient.addColorStop(1, 'rgba(76, 175, 80, 0.0)');
+              return gradient;
+            },
+            tension: 0.4, // Більш плавні лінії
             fill: true,
             pointRadius: 6,
-            pointBackgroundColor: '#2E7D32'
+            pointBackgroundColor: '#fff',
+            pointBorderColor: '#2E7D32',
+            pointBorderWidth: 2,
+            pointHoverRadius: 8,
           }]
         });
 
@@ -78,72 +92,106 @@ function Stats() {
 
   const options = {
     responsive: true,
-    scales: { y: { min: 0, max: 10 } }
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: 'rgba(0,0,0,0.8)',
+        padding: 12,
+        titleFont: { size: 14 },
+        bodyFont: { size: 14 },
+        displayColors: false,
+        callbacks: {
+            label: (context) => `Настрій: ${context.parsed.y}/10`
+        }
+      }
+    },
+    scales: {
+      y: { 
+        min: 0, 
+        max: 10,
+        grid: { color: '#f0f0f0' }
+      },
+      x: {
+        grid: { display: false }
+      }
+    }
+  };
+
+  // Визначення кольору середнього значення
+  const getAvgColorClass = (val) => {
+      if (val >= 7) return 'good';
+      if (val >= 4) return 'neutral';
+      return 'bad';
   };
 
   return (
-    <div className="container" style={{maxWidth: '900px', marginTop: '40px', paddingBottom: '50px'}}>
-      <h1 style={{textAlign: 'center', color: '#2E7D32', marginBottom: '30px'}}>Аналітика 📊</h1>
+    <div className="stats-container">
+      <h1 className="page-title">Аналітика 📊</h1>
 
-      {/* Верхние карточки с цифрами */}
-      <div style={{display: 'flex', gap: '20px', justifyContent: 'center', marginBottom: '30px', flexWrap: 'wrap'}}>
-        <div className="card" style={{padding: '25px', textAlign: 'center', minWidth: '180px', flex: 1}}>
-          <h3 style={{fontSize: '2.5rem', margin: '0 0 10px 0', color: '#333'}}>{totalRecs}</h3>
-          <p style={{margin: 0, color: '#666'}}>Всього записів</p>
+      {/* Верхні картки */}
+      <div className="stats-summary-grid">
+        <div className="summary-card">
+          <div className="summary-value">{totalRecs}</div>
+          <p className="summary-label">Всього записів</p>
         </div>
-        <div className="card" style={{padding: '25px', textAlign: 'center', minWidth: '180px', flex: 1}}>
-          <h3 style={{fontSize: '2.5rem', margin: '0 0 10px 0', color: parseFloat(globalAvg) >= 5 ? '#4CAF50' : '#EF5350'}}>
-            {globalAvg}/10
-          </h3>
-          <p style={{margin: 0, color: '#666'}}>Загальний стан</p>
+        <div className="summary-card">
+          <div className={`summary-value ${getAvgColorClass(parseFloat(globalAvg))}`}>
+            {globalAvg}
+          </div>
+          <p className="summary-label">Середній рівень</p>
         </div>
       </div>
 
-      {/* График */}
-      <div className="card" style={{padding: '20px', background: 'white', marginBottom: '30px'}}>
-        {chartData ? <Line data={chartData} options={options} /> : <p style={{textAlign: 'center', color: '#888'}}>Завантаження даних...</p>}
+      {/* Графік */}
+      <div className="chart-card">
+        {chartData ? (
+            <div style={{ height: '350px' }}>
+                <Line data={chartData} options={options} />
+            </div>
+        ) : (
+            <p className="loading-state">Завантаження даних...</p>
+        )}
       </div>
 
-      {/* --- БЛОК 1: КРИТИЧЕСКОЕ СОСТОЯНИЕ (< 2.0) --- */}
-      {parseFloat(globalAvg) > 0 && parseFloat(globalAvg) < 2.0 && (
-        <div className="card" style={{padding: '30px', backgroundColor: '#FFEBEE', borderLeft: '6px solid #D32F2F', textAlign: 'left'}}>
-            <h3 style={{color: '#D32F2F', marginTop: 0, display: 'flex', alignItems: 'center', gap: '10px'}}>
-                <span>🆘</span> Критично низький рівень
+      {/* --- БЛОК 1: КРИТИЧНИЙ СТАН (< 3.0) --- */}
+      {parseFloat(globalAvg) > 0 && parseFloat(globalAvg) < 3.0 && (
+        <div className="alert-card critical">
+            <h3 className="alert-header">
+               <span>🆘</span> Критично низький рівень
             </h3>
-            <p style={{color: '#333', fontSize: '1.05rem', lineHeight: '1.6'}}>
-                Ваш середній показник становить <strong>{globalAvg}</strong>. Це свідчить про значний емоційний спад.
+            <p className="alert-text">
+                Ваш середній показник становить <strong>{globalAvg}</strong>. Це може свідчити про емоційне вигорання або депресивний стан.
             </p>
             
-            <div style={{marginTop: '25px', background: 'white', padding: '25px', borderRadius: '15px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)'}}>
-                <h4 style={{marginTop: 0, color: '#D32F2F', fontSize: '1.2rem'}}>Екстрена допомога:</h4>
-                <p style={{color: '#555', marginBottom: '15px'}}>
-                    Ми радимо звернутися до спеціалістів. Ось безкоштовні номери підтримки:
-                </p>
-                <ul style={{listStyle: 'none', padding: 0, fontSize: '1.1rem', color: '#333'}}>
-                    <li style={{marginBottom: '10px'}}>📞 <strong>7333</strong> — Гаряча лінія запобігання суїцидам</li>
-                    <li style={{marginBottom: '10px'}}>📞 <strong>0 800 500 335</strong> — Лінія "Ла Страда"</li>
-                    <li>🚑 <strong>103</strong> — Швидка медична допомога</li>
+            <div className="recommendations-box">
+                <h4 className="rec-title">Екстрена допомога:</h4>
+                <p style={{marginBottom: '15px', color: '#666'}}>Ми радимо звернутися до спеціалістів. Ось безкоштовні номери:</p>
+                <ul className="help-list">
+                    <li><span className="help-icon">📞</span> <strong>7333</strong> — Гаряча лінія запобігання суїцидам</li>
+                    <li><span className="help-icon">📞</span> <strong>0 800 500 335</strong> — Лінія "Ла Страда"</li>
+                    <li><span className="help-icon">🚑</span> <strong>103</strong> — Швидка медична допомога</li>
                 </ul>
             </div>
         </div>
       )}
 
-      {/* --- БЛОК 2: СНИЖЕНИЕ НАСТРОЕНИЯ (2.0 - 5.0) --- */}
-      {parseFloat(globalAvg) >= 2.0 && parseFloat(globalAvg) < 5.0 && (
-        <div className="card" style={{padding: '30px', backgroundColor: '#FFF3E0', borderLeft: '6px solid #FF9800', textAlign: 'left'}}>
-            <h3 style={{color: '#E65100', marginTop: 0, display: 'flex', alignItems: 'center', gap: '10px'}}>
-                <span>🧡</span> Важливо: Зниження настрою
+      {/* --- БЛОК 2: ЗНИЖЕННЯ НАСТРОЮ (3.0 - 5.5) --- */}
+      {parseFloat(globalAvg) >= 3.0 && parseFloat(globalAvg) < 5.5 && (
+        <div className="alert-card warning">
+            <h3 className="alert-header">
+                <span>🧡</span> Важливо: Зниження тонусу
             </h3>
-            <p style={{color: '#333', fontSize: '1.05rem', lineHeight: '1.6'}}>
-                Середній показник: <strong>{globalAvg}</strong>. Спробуйте приділити час собі.
+            <p className="alert-text">
+                Середній показник: <strong>{globalAvg}</strong>. Схоже, ви втомилися або переживаєте стрес. Спробуйте приділити час собі.
             </p>
             
-            <div style={{marginTop: '25px', background: 'white', padding: '25px', borderRadius: '15px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)'}}>
-                <h4 style={{marginTop: 0, color: '#2E7D32', fontSize: '1.2rem'}}>🌱 Рекомендації:</h4>
-                <ul style={{paddingLeft: '20px', color: '#555', lineHeight: '1.8', fontSize: '1rem'}}>
-                    <li style={{marginBottom: '8px'}}><strong>Техніка "Заземлення":</strong> назвіть 5 речей, які бачите навколо.</li>
-                    <li style={{marginBottom: '8px'}}><strong>Прогулянка:</strong> коротка прогулянка на свіжому повітрі (15 хв).</li>
-                    <li><strong>Детокс:</strong> спробуйте відкласти телефон за годину до сну.</li>
+            <div className="recommendations-box">
+                <h4 className="rec-title">🌱 Рекомендації для відновлення:</h4>
+                <ul className="rec-list">
+                    <li><strong>Техніка "Заземлення":</strong> знайдіть 5 предметів синього кольору навколо себе.</li>
+                    <li><strong>Цифровий детокс:</strong> відкладіть телефон за годину до сну.</li>
+                    <li><strong>Прогулянка:</strong> 15 хвилин на свіжому повітрі значно знижують рівень кортизолу.</li>
                 </ul>
             </div>
         </div>
