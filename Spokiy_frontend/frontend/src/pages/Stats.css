@@ -95,6 +95,7 @@
   align-items: center;
   gap: 12px;
   font-size: 1.4rem;
+  font-weight: bold;
 }
 
 .alert-card.critical .alert-header { color: #D32F2F; }
@@ -107,53 +108,127 @@
   margin-bottom: 25px;
 }
 
-/* Внутрішній блок рекомендацій */
+/* Внутрішній блок рекомендацій - ОНОВЛЕНИЙ */
 .recommendations-box {
   background: white;
   padding: 25px;
   border-radius: 16px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0,0,0,0.03);
 }
 
 .rec-title {
   margin-top: 0;
+  color: #1B5E20;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #E8F5E9;
+  padding-bottom: 10px;
+}
+
+/* Список порад (КАРТКИ) */
+.rec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rec-item {
+  background: #F9FAFB;
+  border: 1px solid #EEE;
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.2s ease;
+  position: relative;
+  padding-left: 20px;
+}
+
+.rec-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #4CAF50; /* Зелена смужка зліва */
+  border-radius: 4px 0 0 4px;
+}
+
+.rec-item:hover {
+  background: #F1F8E9;
+  transform: translateX(5px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.rec-item h5 {
+  margin: 0 0 6px 0;
+  font-size: 1.05rem;
   color: #2E7D32;
-  font-size: 1.2rem;
-  margin-bottom: 15px;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.rec-list {
-  padding-left: 20px;
-  color: #555;
-  line-height: 1.8;
-  font-size: 1rem;
+.rec-item p {
   margin: 0;
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
-.rec-list li {
-  margin-bottom: 8px;
-}
-
-/* Контакти допомоги */
+/* Контакти допомоги (оформлені як плитки) */
 .help-list {
   list-style: none;
   padding: 0;
-  font-size: 1.1rem;
-  color: #333;
+  margin: 0;
 }
 
 .help-list li {
-  margin-bottom: 12px;
+  background: #FAFAFA;
+  border: 1px solid #EEEEEE;
+  padding: 12px 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  color: #333;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.help-list li:hover {
+  background: #FFEBEE;
+  border-color: #FFCDD2;
+  transform: translateX(5px);
 }
 
 .help-icon {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+}
+
+/* Сетка для дополнительных графиков */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Завантаження */
