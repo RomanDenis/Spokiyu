@@ -97,6 +97,7 @@ function Home({ forceLanding = false }) {
             {/* Меню швидких дій */}
             <h3 className="section-heading">Швидкі дії</h3>
             <div className="dashboard-menu">
+              {/* 1. Записати */}
               <Link to="/diary" className="menu-card action-card">
                 <div className="card-icon">✏️</div>
                 <div className="card-info">
@@ -104,6 +105,17 @@ function Home({ forceLanding = false }) {
                   <p>Як ви почуваєтесь?</p>
                 </div>
               </Link>
+              
+              {/* 2. Матеріали (НОВЕ) */}
+              <Link to="/materials" className="menu-card green-card">
+                <div className="card-icon">📚</div>
+                <div className="card-info">
+                  <h3>База знань</h3>
+                  <p>Поради та вправи</p>
+                </div>
+              </Link>
+
+              {/* 3. Статистика */}
               <Link to="/stats" className="menu-card blue-card">
                 <div className="card-icon">📊</div>
                 <div className="card-info">
@@ -111,6 +123,8 @@ function Home({ forceLanding = false }) {
                   <p>Графіки настрою</p>
                 </div>
               </Link>
+
+              {/* 4. Профіль */}
               <Link to="/profile" className="menu-card orange-card">
                 <div className="card-icon">⚙️</div>
                 <div className="card-info">
