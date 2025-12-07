@@ -26,7 +26,7 @@ function Register() {
     <div className="split-screen">
       {/* Ліва частина - Декор */}
       <div className="split-left">
-        <h1>Ласкаво просимо</h1>
+        <h1 className='main-text'>Ласкаво просимо</h1>
         <p>Створіть свій особистий простір для турботи про ментальне здоров'я вже сьогодні.</p>
       </div>
 

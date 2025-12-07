@@ -1,77 +1,54 @@
+/* --- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ --- */
 :root {
-  /* --- СВЕТЛАЯ ТЕМА (Light Mode) --- */
-  --primary-color: #2E7D32;       /* Насыщенный зеленый */
-  --accent-color: #4CAF50;        /* Яркий акцент */
-  --bg-color: #F4F9F4;            /* Свежий мятный фон */
-  --text-main: #2C3E50;           /* Темно-синий/серый (мягче черного) */
-  --text-secondary: #546E7A;      /* Спокойный серый */
-  
-  --card-bg: #FFFFFF;             /* Чистый белый */
-  --card-border: 1px solid transparent; 
-  
+  /* Цвета и переменные только для базовой темы */
+  --primary-color: #2E7D32;
+  --accent-color: #4CAF50;
+  --bg-color: #F4F9F4;
+  --text-main: #2C3E50;
+  --text-secondary: #546E7A;
+  --card-bg: #FFFFFF;
+  --card-border: 1px solid transparent;
   --input-bg: #FFFFFF;
   --input-border: #CFD8DC;
-  
   --nav-bg: rgba(255, 255, 255, 0.95);
   --nav-border: #E0F2F1;
-  
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
   --shadow-md: 0 8px 24px rgba(46, 125, 50, 0.12);
-  
   --success-bg: #E8F5E9;
   --success-text: #2E7D32;
 }
 
-/* --- ТЕМНАЯ ТЕМА (Dark Mode - Fixed) --- */
+/* --- ТЕМНАЯ ТЕМА --- */
 body.dark-mode {
-  /* Фон */
   --bg-color: #121212;
-  
-  /* Карточки */
   --card-bg: #1E1E1E;
   --card-border: 1px solid #333333;
-  
-  /* Текст */
   --text-main: #E0E0E0;
   --text-secondary: #B0B0B0;
-  
-  /* Акценты */
-  --primary-color: #81C784;       
+  --primary-color: #81C784;
   --accent-color: #66BB6A;
-  
-  /* Поля ввода */
   --input-bg: #2C2C2C;
   --input-border: #424242;
-  
-  /* Навигация */
   --nav-bg: rgba(30, 30, 30, 0.95);
   --nav-border: #333333;
-  
-  /* Тени */
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
   --shadow-md: 0 8px 24px rgba(0,0,0,0.5);
-  
-  /* Статусы */
   --success-bg: #1B3320;
   --success-text: #A5D6A7;
 }
 
-/* --- ВАЖНО: ЗАЩИТА ЛЕНДИНГА ОТ ТЕМНОЙ ТЕМЫ --- */
-/* Если мы в темной теме, но находимся внутри .landing-view, 
-   принудительно возвращаем светлые переменные */
+/* --- ЛЕНДИНГ ВСЕГДА СВЕТЛЫЙ --- */
 body.dark-mode .landing-view {
   --bg-color: #F4F9F4;
   --card-bg: #FFFFFF;
   --card-border: 1px solid transparent;
-  
   --text-main: #2C3E50;
   --text-secondary: #546E7A;
-  
   --primary-color: #2E7D32;
   --accent-color: #4CAF50;
 }
 
-/* --- БАЗОВЫЕ НАСТРОЙКИ --- */
+/* --- ГЛОБАЛЬНЫЕ СБРОСЫ --- */
 body {
   margin: 0;
   padding: 0;
@@ -93,9 +70,7 @@ button {
   font-family: inherit;
 }
 
-/* --- ГЛОБАЛЬНАЯ АДАПТАЦИЯ (Работает для всех элементов) --- */
-
-/* 1. Карточки и контейнеры */
+/* --- ГЛОБАЛЬНЫЕ СТИЛИ ТОЛЬКО ДЛЯ ОБЩИХ ЭЛЕМЕНТОВ --- */
 .card, .menu-card, .history-card, .form-card, .timeline-day, .timeline-entry, 
 .feature-card, .stat-item, .audience-card, .faq-item {
   background-color: var(--card-bg) !important;
@@ -104,7 +79,6 @@ button {
   transition: background-color 0.3s, border-color 0.3s;
 }
 
-/* 2. Навигация */
 .navbar {
   background-color: var(--nav-bg) !important;
   border-bottom: 1px solid var(--nav-border) !important;
@@ -113,7 +87,6 @@ button {
 .navbar-links a { color: var(--text-secondary) !important; }
 .navbar-links a:hover { color: var(--primary-color) !important; }
 
-/* 3. Инпуты */
 input, textarea, select {
   background-color: var(--input-bg) !important;
   color: var(--text-main) !important;
@@ -121,23 +94,98 @@ input, textarea, select {
 }
 input:focus, textarea:focus { border-color: var(--primary-color) !important; }
 
-/* 4. Заголовки */
-h1, h2, h3, h4, h5, h6 { color: var(--text-main) !important; }
+h1, h2, h3, h4, h5, h6 {
+  color: #205c3b !important;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 14px rgba(46,125,50,0.10);
+  background: none;
+}
 
-/* --- ИСПРАВЛЕНИЯ ДЛЯ ДНЕВНИКА (DIARY) --- */
+.btn-primary, .submit-btn, .read-more-btn {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: #205c3b !important;
+  padding: 15px 32px;
+  border-radius: 18px;
+  font-weight: 800;
+  font-size: 1.12rem;
+  letter-spacing: 0.03em;
+  box-shadow: 0 8px 24px rgba(67,233,123,0.13);
+  border: none;
+  outline: none;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.18s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.btn-primary:hover, .submit-btn:hover, .read-more-btn:hover {
+  background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
+  color: #205c3b !important;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 14px 32px rgba(67,233,123,0.18);
+}
+.btn-primary:active, .submit-btn:active {
+  transform: translateY(0) scale(0.97);
+}
 
-/* Исправляем цвет текста внутри записей, который был жестко задан как #333 */
+.btn-white {
+  background: #fff;
+  color: #2E7D32 !important;
+  padding: 17px 38px;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 1.13rem;
+  box-shadow: 0 8px 24px rgba(67,233,123,0.10);
+  border: 2px solid #43e97b;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  display: inline-block;
+}
+.btn-white:hover {
+  background: #43e97b;
+  color: #205c3b !important;
+  box-shadow: 0 16px 40px rgba(67,233,123,0.18);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #2E7D32 !important;
+  border: 2px solid #43e97b;
+  padding: 15px 36px;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 1.13rem;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  display: inline-block;
+}
+.btn-outline:hover {
+  background: #43e97b;
+  color: #205c3b !important;
+  border-color: #38f9d7;
+}
+
+.btn-small {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: #205c3b;
+  padding: 11px 22px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.btn-small:hover {
+  background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
+}
+
+/* --- ФИКСЫ ДЛЯ ДНЕВНИКА --- */
 body.dark-mode .timeline-entry p,
 body.dark-mode .history-text,
 body.dark-mode .entry-text {
   color: var(--text-main) !important;
 }
-
 body.dark-mode .timeline-entry span {
-  color: var(--text-secondary); /* Время записи и прочие мелкие тексты */
+  color: var(--text-secondary);
 }
-
-/* Заголовки дней в таймлайне */
 body.dark-mode .day-header-sticky {
   background-color: var(--bg-color) !important;
   border-bottom: 1px solid #333;
@@ -148,5 +196,5 @@ body.dark-mode .day-date-title {
   border-color: #333;
 }
 body.dark-mode .timeline-day::before {
-  background-color: #333; /* Линия таймлайна */
+  background-color: #333;
 }

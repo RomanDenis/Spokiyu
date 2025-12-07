@@ -194,3 +194,24 @@ input:checked + .slider:before {
   color: white;
   box-shadow: 0 4px 10px rgba(239, 83, 80, 0.2);
 }
+
+.page-title, .profile-title, .settings-card h3 {
+  color: #205c3b;
+  font-weight: 900;
+  text-shadow: 0 2px 14px rgba(46,125,50,0.10);
+}
+
+.logout-btn {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: #205c3b;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 4px 14px rgba(67,233,123,0.13);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
+  color: #205c3b;
+}

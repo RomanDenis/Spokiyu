@@ -23,7 +23,10 @@
 }
 
 h1, h2 {
-  color: var(--primary-color);
+  color: #205c3b;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 14px rgba(46,125,50,0.10);
 }
 
 /* Картки форм */
@@ -67,22 +70,23 @@ label {
 
 /* Головні кнопки (Вхід, Зберегти) */
 button[type="submit"] {
-  width: 100%;
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-  color: white;
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: #205c3b;
   border: none;
   padding: 15px;
-  border-radius: 12px;
+  border-radius: 14px;
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 4px 14px rgba(67,233,123,0.13);
   transition: 0.3s;
 }
 
 button[type="submit"]:hover {
+  background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
+  color: #205c3b;
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+  box-shadow: 0 8px 20px rgba(67,233,123,0.18);
 }
 
 /* Історія записів */

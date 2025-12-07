@@ -188,7 +188,7 @@ function Home({ forceLanding = false }) {
         <div className="decor-circle circle-2"></div>
         
         <div className="container hero-content">
-          <h1>Знайдіть свій внутрішній <span>«Спокій»</span> 🌿</h1>
+          <h1 className="main-text">Знайдіть свій внутрішній <span>«Спокій»</span> </h1>
           <p>Інтелектуальна система підтримки ментального здоров'я.<br/>Використовуйте силу AI для розуміння власних емоцій та боротьби зі стресом.</p>
           
           <div className="hero-buttons">
@@ -303,12 +303,12 @@ function Home({ forceLanding = false }) {
           <h2 className="section-title">Відгуки користувачів</h2>
           <div className="testimonials-grid">
             <div className="testimonial-card">
-              <p style={{fontStyle: 'italic', color: '#666'}}>&quot;Цей додаток допоміг мені пережити складну сесію. Просто записуючи думки, я відчувала полегшення.&quot;</p>
-              <h4 style={{marginTop: '20px', color: '#2E7D32'}}>- Олена, студентка</h4>
+              <p className="testimonial-text">"Цей додаток допоміг мені пережити складну сесію. Просто записуючи думки, я відчувала полегшення."</p>
+              <h4 className="testimonial-author">- Олена, студентка</h4>
             </div>
             <div className="testimonial-card">
-              <p style={{fontStyle: 'italic', color: '#666'}}>&quot;Зручно слідкувати за статистикою. Я помітив, що мій настрій падає в середу, і змінив графік.&quot;</p>
-              <h4 style={{marginTop: '20px', color: '#2E7D32'}}>- Максим, QA Engineer</h4>
+              <p className="testimonial-text">"Зручно слідкувати за статистикою. Я помітив, що мій настрій падає в середу, і змінив графік."</p>
+              <h4 className="testimonial-author">- Максим, QA Engineer</h4>
             </div>
           </div>
         </div>
@@ -317,11 +317,11 @@ function Home({ forceLanding = false }) {
       {/* 7. FOOTER */}
       <footer className="landing-footer">
         <div className="container footer-content">
-          <div className="footer-col" style={{minWidth:'180px'}}>
-            <h3>🌿 Спокій</h3>
+          <div className="footer-col">
+            <h3> Спокій</h3>
             <p>Дипломний проєкт 2025.<br/>Вебзастосунок для підтримки ментального здоров'я.</p>
           </div>
-          <div className="footer-col" style={{minWidth:'140px'}}>
+          <div className="footer-col">
             <h4>Навігація</h4>
             <div className="footer-links">
               <Link to="/about">Про проєкт</Link>
@@ -335,7 +335,7 @@ function Home({ forceLanding = false }) {
               )}
             </div>
           </div>
-          <div className="footer-col" style={{minWidth:'140px'}}>
+          <div className="footer-col">
             <h4>Контакти</h4>
             <p>📧 support@spokiy.app</p>
             <p>📍 Київ, Україна</p>

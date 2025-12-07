@@ -23,6 +23,7 @@
   overflow: hidden;
 }
 
+
 /* Декоративні круги на фоні */
 .split-left::before {
   content: '';
@@ -90,6 +91,12 @@
   font-size: 1.8rem;
 }
 
+.split-left h1, .split-left p, .auth-form-wrapper h2 {
+  color: #205c3b;
+  font-weight: 900;
+  text-shadow: 0 2px 14px rgba(46,125,50,0.10);
+}
+
 /* Поля вводу */
 form label {
   display: block;
@@ -120,19 +127,20 @@ form input:focus {
 form button {
   width: 100%;
   padding: 14px;
-  background: #2E7D32;
-  color: white;
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: #205c3b;
   border: none;
-  border-radius: 10px;
-  font-size: 1.1rem;
-  font-weight: bold;
+  border-radius: 12px;
+  font-size: 1.08rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(67,233,123,0.13);
 }
 
 form button:hover {
-  background: #1b5e20;
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
+  color: #205c3b;
 }
 
 form button:active {

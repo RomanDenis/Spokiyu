@@ -14,10 +14,11 @@
 }
 
 .page-title {
-  color: #2E7D32;
+  color: #205c3b;
   font-size: 2.2rem;
-  font-weight: 800;
+  font-weight: 900;
   margin-bottom: 10px;
+  text-shadow: 0 2px 14px rgba(46,125,50,0.10);
 }
 
 .page-subtitle {
@@ -100,24 +101,24 @@
 
 .read-more-btn {
   align-self: flex-start;
-  background: transparent;
-  border: 2px solid #4CAF50;
-  color: #4CAF50;
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: #205c3b;
   padding: 10px 20px;
-  border-radius: 25px;
-  font-weight: bold;
+  border-radius: 12px;
+  font-weight: 700;
   text-decoration: none;
-  transition: all 0.2s;
+  transition: background 0.2s, box-shadow 0.2s;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   cursor: pointer;
+  box-shadow: 0 4px 14px rgba(67,233,123,0.13);
 }
 
 .read-more-btn:hover {
-  background: #4CAF50;
-  color: white;
+  background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
+  color: #205c3b;
 }
 
 /* --- МОДАЛЬНОЕ ОКНО (ДЕТАЛИ) --- */
