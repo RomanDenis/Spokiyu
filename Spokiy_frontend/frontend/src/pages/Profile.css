@@ -1,15 +1,22 @@
+/* frontend/src/pages/Profile.css */
+
 .profile-container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 30px 20px 60px 20px;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  color: #333;
 }
 
 .profile-title {
   text-align: center;
   color: #2E7D32;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  font-size: 2.2rem;
+  font-weight: 800;
 }
 
+/* --- СЕТКА ПРОФИЛЯ --- */
 .profile-grid {
   display: grid;
   grid-template-columns: 1fr 2fr; /* Левая колонка уже, правая шире */
@@ -24,70 +31,79 @@
   }
 }
 
-/* --- КАРТОЧКА ПРОФИЛЯ --- */
+/* --- ОБЩИЕ СТИЛИ КАРТОЧЕК --- */
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+/* --- КАРТОЧКА ПРОФИЛЯ (ЛЕВАЯ) --- */
 .profile-card {
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
 .profile-avatar {
   width: 100px;
   height: 100px;
-  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
   color: white;
-  font-size: 3rem;
-  font-weight: bold;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
-  box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
 }
 
 .profile-card h2 {
-  margin: 0;
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
   color: #333;
 }
 
 .profile-status {
+  margin: 0;
   color: #666;
-  margin-top: 10px;
+  font-size: 0.95rem;
+  background: #f1f8e9;
+  padding: 5px 15px;
+  border-radius: 20px;
+  display: inline-block;
 }
 
 .profile-status span {
   color: #2E7D32;
-  font-weight: bold;
-  background: #E8F5E9;
-  padding: 4px 10px;
-  border-radius: 15px;
-  font-size: 0.9rem;
+  font-weight: 600;
 }
 
-/* --- НАСТРОЙКИ --- */
-.settings-card {
-  padding: 30px;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+/* --- КАРТОЧКА НАСТРОЕК (ПРАВАЯ) --- */
+.settings-card h3 {
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-size: 1.3rem;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
 }
 
 .setting-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .setting-info h4 {
   margin: 0 0 5px 0;
-  color: #333;
+  font-size: 1.1rem;
 }
 
 .setting-info p {
@@ -96,48 +112,27 @@
   font-size: 0.9rem;
 }
 
-.setting-divider {
-  margin: 20px 0;
-  border-top: 1px solid #eee;
-}
-
-/* Кнопка выхода */
-.logout-btn {
-  background-color: #ffebee;
-  color: #c62828;
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
-  font-size: 1rem;
-}
-
-.logout-btn:hover {
-  background-color: #ef5350;
-  color: white;
-}
-
-/* --- TOGGLE SWITCH (Переключатель) --- */
+/* --- ПЕРЕКЛЮЧАТЕЛЬ (TOGGLE SWITCH) --- */
 .switch {
   position: relative;
   display: inline-block;
   width: 50px;
-  height: 26px;
+  height: 28px;
 }
 
 .switch input { 
-  opacity: 0; 
-  width: 0; 
-  height: 0; 
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
 .slider {
   position: absolute;
   cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: #ccc;
   transition: .4s;
 }
@@ -147,8 +142,8 @@
   content: "";
   height: 20px;
   width: 20px;
-  left: 3px;
-  bottom: 3px;
+  left: 4px;
+  bottom: 4px;
   background-color: white;
   transition: .4s;
 }
@@ -157,14 +152,45 @@ input:checked + .slider {
   background-color: #4CAF50;
 }
 
-input:checked + .slider:before {
-  transform: translateX(24px);
+input:focus + .slider {
+  box-shadow: 0 0 1px #4CAF50;
 }
 
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+/* --- КНОПКИ --- */
+.setting-divider {
+  height: 1px;
+  background: #eee;
+  margin: 30px 0;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ef5350;
+  color: #ef5350;
+  background: transparent;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  background: #ef5350;
+  color: white;
+  box-shadow: 0 4px 10px rgba(239, 83, 80, 0.2);
 }
