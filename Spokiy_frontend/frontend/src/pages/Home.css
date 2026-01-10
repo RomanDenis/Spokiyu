@@ -244,12 +244,19 @@
 
 .widget-card h4 {
   margin-top: 0;
-  margin-bottom: 24px;
-  color: #1B4332;
-  font-size: 1.25rem;
-  font-weight: 800;
-  border-bottom: 2px solid #F0F4F2;
-  padding-bottom: 15px;
+  margin-bottom: 20px;
+  
+  /* !important гарантирует применение стиля */
+  color: #111111 !important; /* Темный, четкий цвет */
+  font-size: 1.2rem !important;
+  font-weight: 700 !important; /* Жирный, но не "тяжелый" */
+  text-shadow: none !important; /* Убираем любое размытие */
+  
+  line-height: 1.4 !important;
+  letter-spacing: 0.01em !important; /* Чуть-чуть разрядим буквы */
+  
+  border-bottom: 1px solid #E0E0E0 !important; /* Тонкая серая линия */
+  padding-bottom: 15px !important;
 }
 
 /* Последняя запись */

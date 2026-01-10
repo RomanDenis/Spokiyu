@@ -176,42 +176,45 @@ input:checked + .slider:before {
   margin: 30px 0;
 }
 
+/* --- ЗАГОЛОВКИ (Чистим от "мыла" и делаем контрастными) --- */
+.page-title, .profile-title, .settings-card h3 {
+  color: #111111; /* Четкий черный цвет */
+  font-weight: 800;
+  text-shadow: none; /* УБРАЛИ размытую тень */
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+/* --- КНОПКА ВЫХОДА (Soft Red Style) --- */
 .logout-btn {
   width: 100%;
   padding: 12px;
-  border: 2px solid #ef5350;
-  color: #ef5350;
-  background: transparent;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.logout-btn:hover {
-  background: #ef5350;
-  color: white;
-  box-shadow: 0 4px 10px rgba(239, 83, 80, 0.2);
-}
-
-.page-title, .profile-title, .settings-card h3 {
-  color: #205c3b;
-  font-weight: 900;
-  text-shadow: 0 2px 14px rgba(46,125,50,0.10);
-}
-
-.logout-btn {
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  color: #205c3b;
-  border-radius: 12px;
+  
+  /* Тонкая, едва заметная красная рамка */
+  border: 1px solid rgba(211, 47, 47, 0.3);
+  color: #D32F2F; /* Спокойный, глубокий красный */
+  background: transparent; /* УБРАЛИ ГРАДИЕНТ */
+  
+  /* Форма пилюли (Pill shape), чтобы сочеталась с дизайном */
+  border-radius: 50px; 
+  
+  font-size: 0.95rem;
   font-weight: 700;
-  font-size: 1rem;
-  box-shadow: 0 4px 14px rgba(67,233,123,0.13);
-  transition: background 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  /* Выравнивание */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  box-shadow: none; /* Убрали кислотное свечение */
 }
 
 .logout-btn:hover {
-  background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
-  color: #205c3b;
+  /* Вместо агрессивной заливки — мягкий пастельный фон */
+  background: #FFEBEE; 
+  color: #B71C1C; /* Текст становится чуть темнее */
+  border-color: #D32F2F;
+  transform: translateY(-2px); /* Легкий подъем */
 }

@@ -101,24 +101,32 @@
 
 .read-more-btn {
   align-self: flex-start;
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  color: #205c3b;
-  padding: 10px 20px;
-  border-radius: 12px;
+  /* УБИРАЕМ ГРАДИЕНТ, ставим глубокий зеленый */
+  background: #2D6A4F; 
+  color: #FFFFFF; /* Текст белый, чтобы читался идеально */
+  
+  padding: 10px 24px; /* Чуть шире */
+  border-radius: 50px; /* Скругленные края (Pill shape), как у всех новых кнопок */
   font-weight: 700;
   text-decoration: none;
-  transition: background 0.2s, box-shadow 0.2s;
+  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(67,233,123,0.13);
+  border: none;
+  
+  /* Тень в цвет кнопки, мягкая */
+  box-shadow: 0 4px 14px rgba(45, 106, 79, 0.25);
 }
 
 .read-more-btn:hover {
-  background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
-  color: #205c3b;
+  /* При наведении становится темнее */
+  background: #1B4332; 
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(45, 106, 79, 0.35);
 }
 
 /* --- МОДАЛЬНОЕ ОКНО (ДЕТАЛИ) --- */
