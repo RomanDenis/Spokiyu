@@ -1,63 +1,81 @@
-/* --- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ --- */
+/* --- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ (FIXED) --- */
 :root {
-  /* Цвета и переменные только для базовой темы */
-  --primary-color: #2E7D32;
-  --accent-color: #4CAF50;
-  --bg-color: #F4F9F4;
-  --text-main: #2C3E50;
-  --text-secondary: #546E7A;
+  /* Спокойная палитра "Forest & Sage" */
+  --primary-color: #2D6A4F;       /* Глубокий лесной (вместо #2E7D32) */
+  --accent-color: #40916C;        /* Шалфей (вместо кислотного #4CAF50) */
+  
+  /* Фон: Мятно-белый, убирает ощущение пересвета */
+  --bg-color: #F4F7F5;            
+  
+  /* Текст: Угольный, не черный */
+  --text-main: #1B4332;           
+  --text-secondary: #52665A;      
+  
+  /* Карточки и инпуты */
   --card-bg: #FFFFFF;
-  --card-border: 1px solid transparent;
+  --card-border: 1px solid rgba(0,0,0,0.04);
   --input-bg: #FFFFFF;
-  --input-border: #CFD8DC;
-  --nav-bg: rgba(255, 255, 255, 0.95);
-  --nav-border: #E0F2F1;
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
-  --shadow-md: 0 8px 24px rgba(46, 125, 50, 0.12);
-  --success-bg: #E8F5E9;
-  --success-text: #2E7D32;
+  --input-border: #D8E2DC;        /* Мягкий серый */
+  
+  --nav-bg: rgba(255, 255, 255, 0.98);
+  --nav-border: #E8F5E9;
+  
+  /* Тени: Нейтральные серые (убрали зеленые тени) */
+  --shadow-sm: 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
+  
+  --success-bg: #D8F3DC;
+  --success-text: #1B4332;
 }
 
-/* --- ТЕМНАЯ ТЕМА --- */
+/* --- ТЕМНАЯ ТЕМА (Скорректирована под спокойный тон) --- */
 body.dark-mode {
   --bg-color: #121212;
   --card-bg: #1E1E1E;
   --card-border: 1px solid #333333;
   --text-main: #E0E0E0;
-  --text-secondary: #B0B0B0;
-  --primary-color: #81C784;
-  --accent-color: #66BB6A;
+  --text-secondary: #A0A0A0;
+  --primary-color: #52B788;       /* Светлее для темной темы, но не неон */
+  --accent-color: #74C69D;
   --input-bg: #2C2C2C;
   --input-border: #424242;
   --nav-bg: rgba(30, 30, 30, 0.95);
   --nav-border: #333333;
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
-  --shadow-md: 0 8px 24px rgba(0,0,0,0.5);
+  --shadow-sm: 0 4px 12px rgba(0,0,0,0.4);
+  --shadow-md: 0 10px 30px rgba(0,0,0,0.5);
   --success-bg: #1B3320;
   --success-text: #A5D6A7;
 }
 
 /* --- ЛЕНДИНГ ВСЕГДА СВЕТЛЫЙ --- */
 body.dark-mode .landing-view {
-  --bg-color: #F4F9F4;
+  --bg-color: #F4F7F5;
   --card-bg: #FFFFFF;
   --card-border: 1px solid transparent;
-  --text-main: #2C3E50;
-  --text-secondary: #546E7A;
-  --primary-color: #2E7D32;
-  --accent-color: #4CAF50;
+  --text-main: #1B4332;
+  --text-secondary: #52665A;
+  --primary-color: #2D6A4F;
+  --accent-color: #40916C;
 }
 
 /* --- ГЛОБАЛЬНЫЕ СБРОСЫ --- */
+/* В index.css */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-main);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.3s ease, color 0.3s ease;
+  
+  /* --- НОВЫЙ ФОН --- */
+  color: var(--text-main);
+  /* Мягкий радиальный градиент: светлый центр, чуть темнее края. 
+     Это создает эффект виньетки и фокусирует взгляд на центре. */
+  background: radial-gradient(circle at 50% 0%, #ffffff 0%, #F0F4F2 100%);
+  background-attachment: fixed; /* Фон стоит на месте при прокрутке - дорогой эффект */
+  min-height: 100vh;
+  overflow-x: hidden; /* Обрезает всё, что вылезает за ширину экрана */
 }
 
 #root {
@@ -70,111 +88,127 @@ button {
   font-family: inherit;
 }
 
-/* --- ГЛОБАЛЬНЫЕ СТИЛИ ТОЛЬКО ДЛЯ ОБЩИХ ЭЛЕМЕНТОВ --- */
+/* --- ОБЩИЕ ЭЛЕМЕНТЫ --- */
 .card, .menu-card, .history-card, .form-card, .timeline-day, .timeline-entry, 
 .feature-card, .stat-item, .audience-card, .faq-item {
   background-color: var(--card-bg) !important;
   border: var(--card-border) !important;
   color: var(--text-main) !important;
-  transition: background-color 0.3s, border-color 0.3s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .navbar {
   background-color: var(--nav-bg) !important;
   border-bottom: 1px solid var(--nav-border) !important;
+  backdrop-filter: blur(10px); /* Добавляет красивое размытие фона */
 }
-.navbar-brand { color: var(--primary-color) !important; }
-.navbar-links a { color: var(--text-secondary) !important; }
+.navbar-brand { color: var(--primary-color) !important; font-weight: 800; }
+.navbar-links a { color: var(--text-secondary) !important; font-weight: 500; }
 .navbar-links a:hover { color: var(--primary-color) !important; }
 
 input, textarea, select {
   background-color: var(--input-bg) !important;
   color: var(--text-main) !important;
-  border-color: var(--input-border) !important;
+  border: 1px solid var(--input-border) !important; /* Тоньше границы */
+  border-radius: 12px !important;
 }
-input:focus, textarea:focus { border-color: var(--primary-color) !important; }
+input:focus, textarea:focus { 
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 4px rgba(64, 145, 108, 0.1); /* Мягкое свечение вместо жесткой границы */
+  outline: none;
+}
 
+/* ЗАГОЛОВКИ: Убрали text-shadow и сменили цвет */
 h1, h2, h3, h4, h5, h6 {
-  color: #205c3b !important;
-  font-weight: 900;
-  letter-spacing: -0.01em;
-  text-shadow: 0 2px 14px rgba(46,125,50,0.10);
+  color: var(--primary-color) !important; /* Используем переменную */
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-shadow: none !important; /* УБРАЛИ МЫЛО */
   background: none;
 }
 
+/* --- КНОПКИ (ИСПРАВЛЕНЫ) --- */
+
+/* Основная кнопка: Убрали кислотный градиент, сделали глубокий зеленый */
 .btn-primary, .submit-btn, .read-more-btn {
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  color: #205c3b !important;
+  background: linear-gradient(135deg, #2D6A4F 0%, #40916C 100%); /* Forest Gradient */
+  color: #FFFFFF !important; /* Белый текст! */
   padding: 15px 32px;
-  border-radius: 18px;
-  font-weight: 800;
-  font-size: 1.12rem;
-  letter-spacing: 0.03em;
-  box-shadow: 0 8px 24px rgba(67,233,123,0.13);
+  border-radius: 14px; /* Чуть меньше скругление, выглядит строже */
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.01em;
+  box-shadow: 0 8px 20px rgba(45, 106, 79, 0.25); /* Тень в тон кнопки, но темная */
   border: none;
   outline: none;
-  transition: background 0.2s, box-shadow 0.2s, transform 0.18s;
+  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-}
-.btn-primary:hover, .submit-btn:hover, .read-more-btn:hover {
-  background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
-  color: #205c3b !important;
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 14px 32px rgba(67,233,123,0.18);
-}
-.btn-primary:active, .submit-btn:active {
-  transform: translateY(0) scale(0.97);
+  gap: 10px;
 }
 
+.btn-primary:hover, .submit-btn:hover, .read-more-btn:hover {
+  background: linear-gradient(135deg, #40916C 0%, #2D6A4F 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(45, 106, 79, 0.35);
+  color: #FFFFFF !important;
+}
+
+.btn-primary:active, .submit-btn:active {
+  transform: translateY(0);
+}
+
+/* Белая кнопка */
 .btn-white {
   background: #fff;
-  color: #2E7D32 !important;
+  color: var(--primary-color) !important; /* Темно-зеленый текст */
   padding: 17px 38px;
   border-radius: 50px;
-  font-weight: 800;
-  font-size: 1.13rem;
-  box-shadow: 0 8px 24px rgba(67,233,123,0.10);
-  border: 2px solid #43e97b;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid transparent;
+  transition: all 0.2s;
   display: inline-block;
 }
 .btn-white:hover {
-  background: #43e97b;
-  color: #205c3b !important;
-  box-shadow: 0 16px 40px rgba(67,233,123,0.18);
+  background: #fff;
+  color: var(--accent-color) !important;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
+/* Контурная кнопка: Убрали неон */
 .btn-outline {
   background: transparent;
-  color: #2E7D32 !important;
-  border: 2px solid #43e97b;
+  color: var(--primary-color) !important;
+  border: 2px solid var(--primary-color); /* Темно-зеленая рамка */
   padding: 15px 36px;
   border-radius: 50px;
-  font-weight: 800;
-  font-size: 1.13rem;
-  transition: background 0.2s, color 0.2s, border 0.2s;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.2s;
   display: inline-block;
 }
 .btn-outline:hover {
-  background: #43e97b;
-  color: #205c3b !important;
-  border-color: #38f9d7;
+  background: var(--primary-color);
+  color: #FFFFFF !important; /* Становится залитой при наведении */
+  border-color: var(--primary-color);
 }
 
+/* Маленькая кнопка */
 .btn-small {
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  color: #205c3b;
-  padding: 11px 22px;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 700;
-  transition: background 0.2s, box-shadow 0.2s;
+  background: var(--primary-color); /* Сплошной цвет чище на мелких элементах */
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background 0.2s;
 }
 .btn-small:hover {
-  background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
+  background: var(--accent-color);
 }
 
 /* --- ФИКСЫ ДЛЯ ДНЕВНИКА --- */
@@ -197,4 +231,32 @@ body.dark-mode .day-date-title {
 }
 body.dark-mode .timeline-day::before {
   background-color: #333;
+}
+button[type="submit"],
+.btn-primary,
+.submit-btn,
+.nav-btn,
+form button {
+  background: #2D6A4F !important; /* Глубокий зеленый */
+  background-image: none !important; /* Убиваем градиенты */
+  color: #FFFFFF !important;      /* Белый текст */
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(45, 106, 79, 0.3) !important; /* Зеленая тень */
+  text-shadow: none !important;   /* Убираем мыло с текста */
+  font-weight: 700 !important;
+  padding: 16px 32px !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Эффект при наведении */
+button[type="submit"]:hover,
+.btn-primary:hover,
+.submit-btn:hover,
+.nav-btn:hover,
+form button:hover {
+  background: #1B4332 !important; /* Еще темнее */
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(45, 106, 79, 0.4) !important;
+  color: #FFFFFF !important;
 }
