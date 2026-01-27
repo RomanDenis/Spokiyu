@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Users, List, ShieldAlert, Database, Trash2, Plus, Save, Download, FileText, Search, Activity
+  Users, List, ShieldAlert, Database, Trash2, Settings, Plus, Save, Download, FileText, Search, Activity
 } from 'lucide-react';
 import './AdminDashboard.css';
 
@@ -55,7 +55,7 @@ function AdminDashboard() {
     e.preventDefault();
     if (!newWord || !newScore) return;
     const newItem = {
-      id: dictionary.length + 1,
+      id: Date.now(),
       word: newWord,
       score: parseFloat(newScore),
       type: parseFloat(newScore) > 0 ? 'positive' : 'negative'
@@ -65,10 +65,8 @@ function AdminDashboard() {
     setNewScore('');
   };
 
-  const handleDeleteUser = (id) => {
-    if (window.confirm("Ви впевнені, що хочете видалити цього користувача?")) {
-      setUsers(users.filter(u => u.id !== id));
-    }
+  const handleDeleteWord = (id) => {
+    setDictionary(dictionary.filter(w => w.id !== id));
   };
 
   const handleBackup = () => {
@@ -130,7 +128,11 @@ function AdminDashboard() {
                 <h3>Зареєстровані користувачі</h3>
                 <div style={{display:'flex', alignItems:'center', background:'#f5f5f5', padding:'5px 10px', borderRadius:'8px'}}>
                     <Search size={16} color="#999"/>
-                    <input style={{border:'none', background:'transparent', outline:'none', marginLeft:'10px'}} placeholder="Пошук..." />
+                    <input 
+                      className="input-admin"
+                      style={{border:'none', background:'transparent', marginLeft:'5px'}} 
+                      placeholder="Пошук..." 
+                    />
                 </div>
               </div>
               <table className="data-table">
@@ -157,11 +159,7 @@ function AdminDashboard() {
                         </span>
                       </td>
                       <td>
-                        {user.role !== 'Адміністратор' && (
-                            <button className="btn-danger" onClick={() => handleDeleteUser(user.id)}>
-                              <Trash2 size={16} />
-                            </button>
-                        )}
+                        <button className="btn-icon btn-edit"><Settings size={18} /></button>
                       </td>
                     </tr>
                   ))}
@@ -203,9 +201,9 @@ function AdminDashboard() {
               <table className="data-table">
                 <thead>
                   <tr>
-                    <th>Слово (Token)</th>
+                    <th>Слово</th>
                     <th>Вага (Sentiment)</th>
-                    <th>Інтерпретація</th>
+                    <th>Тип</th>
                     <th>Дії</th>
                   </tr>
                 </thead>
@@ -220,7 +218,7 @@ function AdminDashboard() {
                         </span>
                       </td>
                       <td>
-                        <button className="btn-danger" onClick={() => setDictionary(dictionary.filter(d => d.id !== item.id))}>
+                        <button className="btn-danger" onClick={() => handleDeleteWord(item.id)}>
                             <Trash2 size={16} />
                         </button>
                       </td>
@@ -236,7 +234,7 @@ function AdminDashboard() {
             <div className="admin-content-card">
               <div className="card-header">
                 <h3>База автоматичних порад</h3>
-                <button className="btn-primary"><Plus size={18} /> Створити нову</button>
+                <button className="btn-primary"><Plus size={18} /> Нова порада</button>
               </div>
               <table className="data-table">
                 <thead>
@@ -254,7 +252,7 @@ function AdminDashboard() {
                       <td style={{color: '#d32f2f', fontFamily:'monospace'}}>{rec.condition}</td>
                       <td><span className="badge badge-neut">{rec.category}</span></td>
                       <td>
-                        <button className="btn-primary" style={{padding:'5px 10px'}}><Save size={16}/></button>
+                        <button className="btn-icon btn-edit"><Settings size={18} /></button>
                       </td>
                     </tr>
                   ))}
@@ -296,16 +294,13 @@ function AdminDashboard() {
                       <span className="log-time">[10:00:15]</span> <span className="log-module">SYSTEM</span> Backup completed successfully.
                   </div>
                   <div className="log-entry">
-                      <span className="log-time">[10:45:22]</span> <span className="log-module">AUTH</span> User "admin" logged in from IP 192.168.1.1.
+                      <span className="log-time">[10:45:22]</span> <span className="log-module">AUTH</span> User "admin" logged in.
                   </div>
                   <div className="log-entry">
                       <span className="log-time">[11:12:05]</span> <span className="log-module">NLP</span> Dictionary updated: added word "вигорання" (score: -0.8).
                   </div>
                   <div className="log-entry">
                       <span className="log-time">[12:30:00]</span> <span className="log-module">API</span> New MoodRecord created by user #42.
-                  </div>
-                  <div className="log-entry">
-                      <span className="log-time">[13:15:10]</span> <span className="log-module">WARN</span> High load detected on CPU core 1.
                   </div>
                 </div>
               </div>
